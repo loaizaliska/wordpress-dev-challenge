@@ -11,7 +11,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:     Liska Link Checker
- * Description:     This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:     Plugin to check wrong links in posts.
  * Version:         0.0.1
  * Author:          Liska Loaiza
  * Author URI:      https://www.example.com
@@ -112,9 +112,14 @@ if ( ! class_exists( 'liska_link_checker' ) ) {
 		 * Define liska_link_checker actions
 		 */
 		public function define_actions() {
-			
-			require_once( LISKA_LINK_CHECKER_PLUGIN_DIR . '/includes/functions/CreateDatabase.php' );
-			register_activation_hook(__FILE__, array('CreateDatabase', 'create_table_wrong_links'));
+
+			require_once( LISKA_LINK_CHECKER_PLUGIN_DIR . '/includes/functions/ActivationPlugin.php' );
+			register_activation_hook(__FILE__, array('ActivationPlugin', 'activate'));
+
+
+				require_once( LISKA_LINK_CHECKER_PLUGIN_DIR . '/includes/hooks/CronJobHook.php' );
+
+				new CronJobHook();
 		}
 
 		/**
